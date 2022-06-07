@@ -17,6 +17,10 @@ public class EntitySet {
     private int size;
     private int maxPossibleSize;
 
+    public EntitySet(String name, int maxPossibleSize){
+        this.name = name;
+        this.maxPossibleSize = maxPossibleSize;
+    }
     public boolean isEmpty(){
         return size < 0;
     }
