@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -16,6 +18,7 @@ public class EntitySet {
     private Mode mode = Mode.None;
     private int size;
     private int maxPossibleSize;
+    private List<Entity> entityList;
 
     public EntitySet(String name, int maxPossibleSize){
         this.name = name;
@@ -25,6 +28,9 @@ public class EntitySet {
         return size < 0;
     }
 
+    public void insert(Entity entity){
+        entityList.add(entity);
+    }
     //public Entity findEntity(int id){
     //}
    //averageSize()
