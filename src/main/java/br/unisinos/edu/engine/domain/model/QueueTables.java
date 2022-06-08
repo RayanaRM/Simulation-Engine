@@ -2,8 +2,8 @@ package br.unisinos.edu.engine.domain.model;
 
 import br.unisinos.edu.engine.domain.EntitySet;
 
-public class FilaMesas extends EntitySet {
-    public FilaMesas(String name, int max){
+public class QueueTables extends EntitySet {
+    public QueueTables(String name, int max){
         super(name, max);
     }
 }

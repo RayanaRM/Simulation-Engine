@@ -3,18 +3,20 @@ package br.unisinos.edu.engine.repository;
 import br.unisinos.edu.engine.domain.model.*;
 
 public class EngineRepository {
-    public BancoBalcao bancoBalcao;
-    public FilaBalcao filaBalcao;
+    public CounterBench counterBench;
+    public QueueCounter queueCounter;
 
-    public Caixa caixa1;
-    public Caixa caixa2;
+    public Cashier cashier1;
+    public Cashier cashier2;
 
-    public FilaCaixa filaCaixa1;
-    public FilaCaixa filaCaixa2;
+    public Kitchen kitchen;
 
-    public FilaPedidos filaPedidos;
-    public FilaMesas filaMesas;
+    public QueueCashier queueCashier1;
+    public QueueCashier queueCashier2;
 
-    public MesasQuatro mesasQuatroLugares;
-    public MesasDois mesasDoisLugares;
+    public QueueOrders queueOrders;
+    public QueueTables queueTables;
+
+    public TablesFour tablesFourSeats;
+    public TablesTwo tablesTwoSeats;
 }
