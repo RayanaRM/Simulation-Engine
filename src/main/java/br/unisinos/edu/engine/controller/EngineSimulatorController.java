@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,8 +14,7 @@ public class EngineSimulatorController {
 
     @PostMapping("/simulate")
     @ResponseStatus(HttpStatus.OK)
-    public void criaLugar() {
+    public void simulate() {
         engineService.simulate();
     }
-
 }

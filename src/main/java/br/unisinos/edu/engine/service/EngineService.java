@@ -33,11 +33,14 @@ public class EngineService {
 
         engineRepository.tablesFourSeats = new TablesFour("mesas4lug", 5, 4);
         engineRepository.tablesTwoSeats = new TablesTwo("mesas2lug", 6, 4);
+
+        executeEngine();
     }
 
     public void executeEngine(){
         // filas dos caixas
         ClientArrival clientArrival = new ClientArrival();
+
         clientArrival.executeOnStart();
 
         // inicia preparo do pedido

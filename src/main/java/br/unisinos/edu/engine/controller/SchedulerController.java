@@ -123,7 +123,7 @@ public class SchedulerController {
         return schedulerService.getEntitySet(id);
     }
 
-    @GetMapping("/simulate")
+    @GetMapping("/simulate-scheduler")
     @ResponseStatus(HttpStatus.OK)
     public void simulate() {
         schedulerService.simulate();
