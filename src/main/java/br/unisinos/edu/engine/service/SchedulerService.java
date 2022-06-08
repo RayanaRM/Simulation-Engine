@@ -6,6 +6,8 @@ import br.unisinos.edu.engine.repository.SchedulerRepository;
 import br.unisinos.edu.engine.settings.Mode;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
+
 @Service
 public class SchedulerService {
     public double getTime() {
@@ -79,5 +81,45 @@ public class SchedulerService {
 
     public EntitySet getEntitySet(int id) {
         return null;
+    }
+
+    public void simulate() {
+        while (!SchedulerRepository.events.isEmpty()) {
+            // sort events
+            SchedulerRepository.events.sort(Comparator.comparing(Event::getTime));
+            simulateOneStep();
+        }
+    }
+
+    public void simulateOneStep() {
+        // get current event
+        Event currentEvent = SchedulerRepository.events.stream().findFirst().get();
+
+        // execute current event
+        // ??
+
+        // remove current event
+        SchedulerRepository.events.remove(currentEvent);
+
+        // advance time
+        SchedulerRepository.scheduler.setTime(getTime() + currentEvent.getTime());
+    }
+
+    public void simulateBy(double duration) {
+        double currentRunDuration = 0;
+
+        while (!SchedulerRepository.events.isEmpty() || currentRunDuration <= duration) {
+            currentRunDuration += SchedulerRepository.events.stream().findFirst().get().getTime();
+            simulateOneStep();
+        }
+    }
+
+    public void simulateUntil(double absoluteTime) {
+        double initialTime = getTime();
+        double finalTime = getTime() + absoluteTime;
+
+        while (!SchedulerRepository.events.isEmpty() || initialTime <= finalTime) {
+            simulateOneStep();
+        }
     }
 }

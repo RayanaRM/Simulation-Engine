@@ -122,4 +122,28 @@ public class SchedulerController {
     public EntitySet getEntitySet(int id) {
         return schedulerService.getEntitySet(id);
     }
+
+    @GetMapping("/simulate")
+    @ResponseStatus(HttpStatus.OK)
+    public void simulate() {
+        schedulerService.simulate();
+    }
+
+    @GetMapping("/simulate-one-step")
+    @ResponseStatus(HttpStatus.OK)
+    public void simulateOneStep() {
+        schedulerService.simulateOneStep();
+    }
+
+    @GetMapping("/simulate-by")
+    @ResponseStatus(HttpStatus.OK)
+    public void simulateBy(double duration) {
+        schedulerService.simulateBy(duration);
+    }
+
+    @GetMapping("/simulate")
+    @ResponseStatus(HttpStatus.OK)
+    public void simulateUntil(double absoluteTime) {
+        schedulerService.simulateUntil(absoluteTime);
+    }
 }
