@@ -1,10 +1,14 @@
 package br.unisinos.edu.engine.service;
 
+import br.unisinos.edu.engine.domain.Scheduler;
 import br.unisinos.edu.engine.domain.model.*;
 import br.unisinos.edu.engine.repository.EngineRepository;
+import br.unisinos.edu.engine.settings.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 
@@ -13,31 +17,50 @@ import java.util.Random;
 public class EngineService {
     private EngineRepository engineRepository;
     public void simulate(){
-        engineRepository.bancoBalcao = new BancoBalcao("balcao", 1, 6);
-        engineRepository.filaBalcao = new FilaBalcao("filaBalcao", 100);
+        engineRepository.counterBench = new CounterBench("balcao", 1, 6);
+        engineRepository.queueCounter = new QueueCounter("queueCounter", 100);
 
-        engineRepository.caixa1 = new Caixa("caixa1", 2, 1);
-        engineRepository.caixa2 = new Caixa("caixa2", 3, 1);
+        engineRepository.cashier1 = new Cashier("caixa1", 2, 1);
+        engineRepository.cashier2 = new Cashier("caixa2", 3, 1);
 
-        engineRepository.filaCaixa1 = new FilaCaixa("filaCaixa1", 100);
-        engineRepository.filaCaixa2 = new FilaCaixa("filaCaixa2", 100);
+        engineRepository.kitchen = new Kitchen("kitchen", 4, 3);
 
-        engineRepository.filaPedidos = new FilaPedidos("filaPedidos", 100);
-        engineRepository.filaMesas = new FilaMesas("filaMesas", 100);
+        engineRepository.queueCashier1 = new QueueCashier("queueCashier1", 100);
+        engineRepository.queueCashier2 = new QueueCashier("queueCashier2", 100);
 
-        engineRepository.mesasQuatroLugares = new MesasQuatro("mesas4lug", 4, 4);
-        engineRepository.mesasDoisLugares = new MesasDois("mesas2lug", 5, 4);
+        engineRepository.queueOrders = new QueueOrders("queueOrders", 100);
+        engineRepository.queueTables = new QueueTables("queueTables", 100);
+
+        engineRepository.tablesFourSeats = new TablesFour("mesas4lug", 5, 4);
+        engineRepository.tablesTwoSeats = new TablesTwo("mesas2lug", 6, 4);
     }
 
     public void executeEngine(){
-        int Minutos = 180; //3 horas
-        Random r = new Random();
+        // filas dos caixas
+        ClientArrival clientArrival = new ClientArrival();
+        clientArrival.executeOnStart();
 
-        ClientGroup clientGroup = new ClientGroup(r.nextInt(4) + 1);
+        // inicia preparo do pedido
+        Preparation preparation = new Preparation();
+        preparation.executeOnStart(clientArrival.clientGroup);
 
-        if(clientGroup.getSize() == 1){
-            if(!engineRepository.bancoBalcao.allocate(1))
-                engineRepository.filaBalcao.insert(clientGroup);
-        }
+        //cliente sai do caixa
+        clientArrival.executeOnEnd();
+
+        //move cliente para mesa ou fila de espera
+        ClientSetup clientSetup = new ClientSetup();
+        clientSetup.executeOnStart(clientArrival.clientGroup);
+
+        //pedido fica pronto
+        preparation.executeOnEnd();
+
+        // verificar se grupo de cliente ta na fila, se tiver deixar pedido esperando em outra fila (tem que criar essa classe de fila)
+        // se grupo estiver em mesa, mandar pedidos para mesa e settar status do grupo para eating
+
+        //cliente termina de comer
+        clientSetup.executeOnEnd();
+
+        //garçom
+
     }
 }

@@ -8,11 +8,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 
-public class MesasQuatro extends Resource {
-    public MesasQuatro(String name, int id, int quantity) {
+public class TablesTwo extends Resource {
+    public TablesTwo(String name, int id, int quantity) {
         super(name, id, quantity);
     }
 }

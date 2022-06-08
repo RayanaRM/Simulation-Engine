@@ -10,9 +10,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+public class Cashier extends Resource {
+    private int size;
 
-public class BancoBalcao extends Resource {
-    public BancoBalcao(String name, int id, int quantity) {
+    public Cashier(String name, int id, int quantity) {
         super(name, id, quantity);
     }
 }

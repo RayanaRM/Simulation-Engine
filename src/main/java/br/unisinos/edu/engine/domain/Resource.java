@@ -15,15 +15,15 @@ public class Resource {
     private int quantity;
 
     public boolean allocate(int quantity){
-        if (quantity <= this.quantity){
-            setQuantity(this.quantity-quantity);
+        if (quantity <= getQuantity()){
+            setQuantity(getQuantity() - quantity);
             return true;
         }
         return false;
     }
 
     public void release(int quantity){
-            setQuantity(quantity);
+            setQuantity(getQuantity() + quantity);
     }
 
     public double allocationRate(){
