@@ -8,8 +8,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 
 public class TablesFour extends Resource {
     public TablesFour(String name, int id, int quantity) {
