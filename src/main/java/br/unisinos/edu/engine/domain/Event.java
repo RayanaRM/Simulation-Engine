@@ -15,4 +15,10 @@ public class Event {
     private int id;
 
     private double time;
+
+    public void executeOnStart() {
+    }
+
+    public void executeOnEnd() {
+    }
 }

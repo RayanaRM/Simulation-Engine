@@ -96,7 +96,8 @@ public class SchedulerService {
         Event currentEvent = SchedulerRepository.events.stream().findFirst().get();
 
         // execute current event
-        // ??
+        currentEvent.executeOnStart();
+        currentEvent.executeOnEnd();
 
         // remove current event
         SchedulerRepository.events.remove(currentEvent);
