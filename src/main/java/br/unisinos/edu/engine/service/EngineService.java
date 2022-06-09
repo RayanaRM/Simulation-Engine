@@ -15,25 +15,7 @@ import java.util.Random;
 @Service
 @RequiredArgsConstructor
 public class EngineService {
-    private EngineRepository engineRepository;
     public void simulate(){
-        engineRepository.counterBench = new CounterBench("balcao", 1, 6);
-        engineRepository.queueCounter = new QueueCounter("queueCounter", 100);
-
-        engineRepository.cashier1 = new Cashier("caixa1", 2, 1);
-        engineRepository.cashier2 = new Cashier("caixa2", 3, 1);
-
-        engineRepository.kitchen = new Kitchen("kitchen", 4, 3);
-
-        engineRepository.queueCashier1 = new QueueCashier("queueCashier1", 100);
-        engineRepository.queueCashier2 = new QueueCashier("queueCashier2", 100);
-
-        engineRepository.queueOrders = new QueueOrders("queueOrders", 100);
-        engineRepository.queueTables = new QueueTables("queueTables", 100);
-
-        engineRepository.tablesFourSeats = new TablesFour("mesas4lug", 5, 4);
-        engineRepository.tablesTwoSeats = new TablesTwo("mesas2lug", 6, 4);
-
         executeEngine();
     }
 

@@ -14,24 +14,20 @@ import java.util.Random;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class Preparation extends Event {
-    private EngineRepository engineRepository;
-
 
     public void executeOnStart(ClientGroup clientGroup){
         for(int i = 0; i < clientGroup.getSize(); i++)
-            engineRepository.queueOrders.insert(new Order(clientGroup.getId()));
+            EngineRepository.queueOrders.insert(new Order(clientGroup.getId()));
 
-        if(!engineRepository.queueOrders.isEmpty()){
-            engineRepository.kitchen.allocate(1);
+        if(!EngineRepository.queueOrders.isEmpty()){
+            EngineRepository.kitchen.allocate(1);
             System.out.println("Cozinha preparando pedido");
-            engineRepository.queueOrders.getEntityList().remove(0);
+            EngineRepository.queueOrders.getEntityList().remove(0);
         }
     }
 
     public void executeOnEnd(){
-        engineRepository.kitchen.release(1);
+        EngineRepository.kitchen.release(1);
     }
 }

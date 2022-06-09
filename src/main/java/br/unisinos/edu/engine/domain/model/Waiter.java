@@ -3,7 +3,7 @@ package br.unisinos.edu.engine.domain.model;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-public class Waiter {
+public class Waiter{
 
     private RestTemplate restTemplate;
 
@@ -44,7 +44,38 @@ public class Waiter {
         return getTokensFromPlace(7) > 0;
     }
 
-    // TODO: Implementar método para setar quantidade de tokens nos lugares de interface (Substituir Caixa, Pedido pronto e Cliente vai pra mesa)
+    public void addTokenToPlace(int id){
+                restTemplate.postForEntity(
+                        "http://localhost:8080/insere-token-em-lugar?id=" + id, id,
+                        Integer.class);
+    }
+
+    public void removeTokenFromPlace(int id){
+        restTemplate.postForEntity(
+                "http://localhost:8080/remove-token-de-lugar?id=" + id + "&arcType=regular", id,
+                Integer.class);
+    }
+
+    public void setReplaceCashier(boolean add){
+        if (add) addTokenToPlace(8);
+        else {
+            removeTokenFromPlace(8);
+        }    }
+
+    public void setOrderDone(boolean add){
+        if (add) addTokenToPlace(9);
+        else {
+            removeTokenFromPlace(9);
+        }
+    }
+
+    public void setClientUseTable(boolean add){
+        if (add) addTokenToPlace(10);
+        else {
+            removeTokenFromPlace(10);
+        }
+    }
+
 
     public void runStep(){
         // TODO: substitui enter no Petri-Net-Simulator

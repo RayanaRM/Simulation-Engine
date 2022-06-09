@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -18,7 +19,7 @@ public class EntitySet {
     private Mode mode = Mode.None;
     private int size;
     private int maxPossibleSize;
-    private List<Entity> entityList;
+    private List<Entity> entityList = new ArrayList<>();
 
     public EntitySet(String name, int maxPossibleSize){
         this.name = name;

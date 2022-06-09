@@ -3,20 +3,20 @@ package br.unisinos.edu.engine.repository;
 import br.unisinos.edu.engine.domain.model.*;
 
 public class EngineRepository {
-    public CounterBench counterBench;
-    public QueueCounter queueCounter;
+    public static CounterBench counterBench = new CounterBench("balcao", 1, 6);;
+    public static QueueCounter queueCounter =  new QueueCounter("queueCounter", 100);
 
-    public Cashier cashier1;
-    public Cashier cashier2;
+    public static Cashier cashier1 = new Cashier("caixa1", 2, 1);
+    public static Cashier cashier2 = new Cashier("caixa2", 3, 1);
 
-    public Kitchen kitchen;
+    public static Kitchen kitchen = new Kitchen("kitchen", 4, 3);
 
-    public QueueCashier queueCashier1;
-    public QueueCashier queueCashier2;
+    public static QueueCashier queueCashier1 = new QueueCashier("queueCashier1", 100);
+    public static QueueCashier queueCashier2 = new QueueCashier("queueCashier2", 100);
 
-    public QueueOrders queueOrders;
-    public QueueTables queueTables;
+    public static QueueOrders queueOrders = new QueueOrders("queueOrders", 100);
+    public static QueueTables queueTables = new QueueTables("queueTables", 100);
 
-    public TablesFour tablesFourSeats;
-    public TablesTwo tablesTwoSeats;
+    public static TablesFour tablesFourSeats  = new TablesFour("mesas4lug", 5, 4);
+    public static TablesTwo tablesTwoSeats = new TablesTwo("mesas2lug", 6, 4);
 }
