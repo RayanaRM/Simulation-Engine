@@ -3,6 +3,8 @@ package br.unisinos.edu.engine.repository;
 import br.unisinos.edu.engine.domain.model.*;
 
 public class EngineRepository {
+
+    public static Waiter waiter = new Waiter();
     public static CounterBench counterBench = new CounterBench("balcao", 1, 6);;
     public static QueueCounter queueCounter =  new QueueCounter("queueCounter", 100);
 

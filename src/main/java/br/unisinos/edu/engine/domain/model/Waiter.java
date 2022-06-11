@@ -1,11 +1,13 @@
 package br.unisinos.edu.engine.domain.model;
 
+import lombok.NoArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+@NoArgsConstructor
 public class Waiter{
 
-    private RestTemplate restTemplate;
+    private RestTemplate restTemplate = new RestTemplate();
 
     public int getTokensFromPlace(int id){
         ResponseEntity<Integer> response =
@@ -56,28 +58,38 @@ public class Waiter{
                 Integer.class);
     }
 
-    public void setReplaceCashier(boolean add){
-        if (add) addTokenToPlace(8);
-        else {
-            removeTokenFromPlace(8);
-        }    }
-
-    public void setOrderDone(boolean add){
-        if (add) addTokenToPlace(9);
-        else {
-            removeTokenFromPlace(9);
+    public void sentToReplaceCashier(boolean send){
+        if(isWaiterFree()){
+            if (send) addTokenToPlace(8);
+            else {
+                removeTokenFromPlace(8);
+            }
+            runStep();
         }
     }
 
-    public void setClientUseTable(boolean add){
-        if (add) addTokenToPlace(10);
-        else {
-            removeTokenFromPlace(10);
+    public void sendWaiterToServeOrder(boolean send){
+        if(isWaiterFree()){
+            if (send) addTokenToPlace(9);
+            else {
+                removeTokenFromPlace(9);
+            }
+            runStep();
         }
     }
 
+    public void sendWaiterToCleanTable(boolean send){
+        if(isWaiterFree()) {
+            if (send) addTokenToPlace(10);
+            else {
+                removeTokenFromPlace(10);
+            }
+            runStep();
+        }
+    }
 
     public void runStep(){
-        // TODO: substitui enter no Petri-Net-Simulator
+        restTemplate.getForEntity(
+                "http://localhost:8080/executa/passo-a-passo", null);
     }
 }

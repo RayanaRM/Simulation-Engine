@@ -8,54 +8,69 @@ import br.unisinos.edu.engine.settings.Status;
 import java.util.Random;
 
 public class ClientSetup extends Event {
-    private EngineRepository engineRepository;
     Resource usedTable;
     public void executeOnStart(ClientGroup clientGroup){
         if(clientGroup.getSize() == 1){
-            engineRepository.queueCounter.insert(clientGroup);
+            EngineRepository.queueCounter.insert(clientGroup);
             clientGroup.setStatus(Status.WaitingInLine);
-            if(!engineRepository.queueCounter.isEmpty()){
-                if(engineRepository.counterBench.allocate(1)){
+            if(!EngineRepository.queueCounter.isEmpty()){
+                if(EngineRepository.counterBench.allocate(1)){
+                    System.out.println("Garçom limpando balcão");
+                    // TODO: colocar tempo para garçom limpar mesa
+                    EngineRepository.waiter.sendWaiterToCleanTable(true);
+
                     System.out.println("Banco do balcão sendo usado");
                     clientGroup.setStatus(Status.WaitingInTable);
-                    usedTable = engineRepository.counterBench;
-                    engineRepository.queueCounter.getEntityList().remove(clientGroup);
+                    usedTable = EngineRepository.counterBench;
+                    EngineRepository.queueCounter.getEntityList().remove(clientGroup);
+
+                    EngineRepository.waiter.sendWaiterToCleanTable(false);
                 }
             }
         }
 
         else if(clientGroup.getSize() > 2){
-            engineRepository.queueTables.insert(clientGroup);
+            EngineRepository.queueTables.insert(clientGroup);
             clientGroup.setStatus(Status.WaitingInLine);
-            if(!engineRepository.queueTables.isEmpty()){
-                if(engineRepository.tablesFourSeats.allocate(1)){
+            if(!EngineRepository.queueTables.isEmpty()){
+                if(EngineRepository.tablesFourSeats.allocate(1)){
+                    System.out.println("Garçom limpando mesa de quatro lugares");
+                    EngineRepository.waiter.sendWaiterToCleanTable(true);
+
                     System.out.println("Mesa de quatro lugares sendo usada");
                     clientGroup.setStatus(Status.WaitingInTable);
-                    usedTable = engineRepository.tablesFourSeats;
-                    engineRepository.queueTables.getEntityList().remove(clientGroup);
+                    usedTable = EngineRepository.tablesFourSeats;
+                    EngineRepository.queueTables.getEntityList().remove(clientGroup);
+
+                    EngineRepository.waiter.sendWaiterToCleanTable(false);
                 }
             }
         }
 
         else{
-            engineRepository.queueTables.insert(clientGroup);
+            EngineRepository.queueTables.insert(clientGroup);
             clientGroup.setStatus(Status.WaitingInLine);
-            if(!engineRepository.queueTables.isEmpty()){
-                if(engineRepository.tablesTwoSeats.allocate(1)){
+            if(!EngineRepository.queueTables.isEmpty()){
+                if(EngineRepository.tablesTwoSeats.allocate(1)){
+                    System.out.println("Garçom limpando mesa de dois lugares");
+                    EngineRepository.waiter.sendWaiterToCleanTable(true);
+
                     System.out.println("Mesa de dois lugares sendo usada");
                     clientGroup.setStatus(Status.WaitingInTable);
-                    usedTable = engineRepository.tablesTwoSeats;
-                    engineRepository.queueTables.getEntityList().remove(clientGroup);
+                    usedTable = EngineRepository.tablesTwoSeats;
+                    EngineRepository.queueTables.getEntityList().remove(clientGroup);
+
+                    EngineRepository.waiter.sendWaiterToCleanTable(false);
                 }
             }
         }
     }
 
     public void executeOnEnd(){
-        if(usedTable == engineRepository.counterBench)
-            engineRepository.counterBench.release(1);
-        else if(usedTable == engineRepository.tablesTwoSeats)
-            engineRepository.tablesTwoSeats.release(1);
-        else engineRepository.tablesFourSeats.release(1);
+        if(usedTable == EngineRepository.counterBench)
+            EngineRepository.counterBench.release(1);
+        else if(usedTable == EngineRepository.tablesTwoSeats)
+            EngineRepository.tablesTwoSeats.release(1);
+        else EngineRepository.tablesFourSeats.release(1);
     }
 }
