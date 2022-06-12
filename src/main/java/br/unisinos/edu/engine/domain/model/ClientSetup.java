@@ -64,11 +64,13 @@ public class ClientSetup extends Event {
         }
     }
 
-    public void executeOnEnd(){
+    public void executeOnEnd(ClientGroup clientGroup){
         if(usedTable == EngineRepository.counterBench)
             EngineRepository.counterBench.release(1);
         else if(usedTable == EngineRepository.tablesTwoSeats)
             EngineRepository.tablesTwoSeats.release(1);
         else EngineRepository.tablesFourSeats.release(1);
+
+        clientGroup.setStatus(Status.Finished);
     }
 }

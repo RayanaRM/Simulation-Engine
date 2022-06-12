@@ -3,6 +3,7 @@ package br.unisinos.edu.engine.domain.model;
 import br.unisinos.edu.engine.domain.Event;
 import br.unisinos.edu.engine.domain.Resource;
 import br.unisinos.edu.engine.repository.EngineRepository;
+import br.unisinos.edu.engine.settings.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,7 +28,11 @@ public class Preparation extends Event {
         }
     }
 
-    public void executeOnEnd(){
+    public void executeOnEnd(ClientGroup clientGroup){
+        // pedido pronto, garçom entrega na mesa do grupo
         EngineRepository.kitchen.release(1);
+        EngineRepository.waiter.sendWaiterToServeOrder();
+        EngineRepository.waiter.setOrderAtTable();
+        clientGroup.setStatus(Status.Eating);
     }
 }

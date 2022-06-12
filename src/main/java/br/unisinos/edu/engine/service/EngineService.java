@@ -37,13 +37,17 @@ public class EngineService {
         clientSetup.executeOnStart(clientArrival.clientGroup);
 
         //pedido fica pronto
-        preparation.executeOnEnd();
+        preparation.executeOnEnd(clientArrival.clientGroup);
 
-        // verificar se grupo de cliente ta na fila, se tiver deixar pedido esperando em outra fila (tem que criar essa classe de fila)
+        // TODO: verificar se grupo de cliente ta na fila, se tiver deixar pedido esperando em outra fila (tem que criar essa classe de fila)
         // se grupo estiver em mesa, mandar pedidos para mesa e settar status do grupo para eating
 
+        // TODO: Implementar o tempo pro garçom substituir o caixa
+        EngineRepository.waiter.sentToReplaceCashier();
+        EngineRepository.waiter.sendCashierBack();
+
         //cliente termina de comer
-        clientSetup.executeOnEnd();
+        clientSetup.executeOnEnd(clientArrival.clientGroup);
 
         //garçom
 
