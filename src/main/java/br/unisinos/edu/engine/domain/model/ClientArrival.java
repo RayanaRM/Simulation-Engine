@@ -11,6 +11,7 @@ public class ClientArrival extends Event {
     public void executeOnStart(){
         Random r = new Random();
         clientGroup = new ClientGroup(r.nextInt(4) + 1);
+        EngineRepository.entities.add(clientGroup);
 
         if (EngineRepository.queueCashier1.getEntityList().size() <
                 EngineRepository.queueCashier2.getEntityList().size()) {

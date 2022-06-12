@@ -18,8 +18,11 @@ import java.util.Random;
 public class Preparation extends Event {
 
     public void executeOnStart(ClientGroup clientGroup){
-        for(int i = 0; i < clientGroup.getSize(); i++)
-            EngineRepository.queueOrders.insert(new Order(clientGroup.getId()));
+        for(int i = 0; i < clientGroup.getSize(); i++){
+            Order order = new Order(clientGroup.getId());
+            EngineRepository.queueOrders.insert(order);
+            EngineRepository.entities.add(order);
+        }
 
         if(!EngineRepository.queueOrders.isEmpty()){
             EngineRepository.kitchen.allocate(1);

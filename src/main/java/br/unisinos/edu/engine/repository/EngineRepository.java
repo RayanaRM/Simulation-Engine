@@ -1,6 +1,10 @@
 package br.unisinos.edu.engine.repository;
 
+import br.unisinos.edu.engine.domain.Entity;
 import br.unisinos.edu.engine.domain.model.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EngineRepository {
 
@@ -21,4 +25,6 @@ public class EngineRepository {
 
     public static TablesFour tablesFourSeats  = new TablesFour("mesas4lug", 5, 4);
     public static TablesTwo tablesTwoSeats = new TablesTwo("mesas2lug", 6, 4);
+
+    public static List<Entity> entities = new ArrayList<>();
 }

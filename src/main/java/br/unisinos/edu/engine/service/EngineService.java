@@ -1,15 +1,9 @@
 package br.unisinos.edu.engine.service;
 
-import br.unisinos.edu.engine.domain.Scheduler;
 import br.unisinos.edu.engine.domain.model.*;
 import br.unisinos.edu.engine.repository.EngineRepository;
-import br.unisinos.edu.engine.settings.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 
 @Service
@@ -51,5 +45,10 @@ public class EngineService {
 
         //garçom
 
+    }
+
+
+    public int getEntityTotalQuantity(){
+        return EngineRepository.entities.size();
     }
 }
