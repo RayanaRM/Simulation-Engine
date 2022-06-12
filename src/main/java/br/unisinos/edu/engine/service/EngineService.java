@@ -33,9 +33,6 @@ public class EngineService {
         //pedido fica pronto
         preparation.executeOnEnd(clientArrival.clientGroup);
 
-        // TODO: verificar se grupo de cliente ta na fila, se tiver deixar pedido esperando em outra fila (tem que criar essa classe de fila)
-        // se grupo estiver em mesa, mandar pedidos para mesa e settar status do grupo para eating
-
         // TODO: Implementar o tempo pro garçom substituir o caixa
         EngineRepository.waiter.sentToReplaceCashier();
         EngineRepository.waiter.sendCashierBack();
@@ -46,7 +43,6 @@ public class EngineService {
         //garçom
 
     }
-
 
     public int getEntityTotalQuantity(){
         return EngineRepository.entities.size();

@@ -11,5 +11,5 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Order extends Entity {
-    private int clientGroupId;
+    private ClientGroup clientGroup;
 }

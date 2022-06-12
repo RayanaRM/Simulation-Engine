@@ -22,7 +22,7 @@ public class EngineRepository {
 
     public static QueueOrders queueOrders = new QueueOrders("queueOrders", 100);
     public static QueueTables queueTables = new QueueTables("queueTables", 100);
-
+    public static QueueReadyOrders queueReadyOrders = new QueueReadyOrders("filaPedidosProntos", 100);
     public static TablesFour tablesFourSeats  = new TablesFour("mesas4lug", 5, 4);
     public static TablesTwo tablesTwoSeats = new TablesTwo("mesas2lug", 6, 4);
 
