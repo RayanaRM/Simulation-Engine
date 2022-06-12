@@ -58,34 +58,40 @@ public class Waiter{
                 Integer.class);
     }
 
-    public void sentToReplaceCashier(boolean send){
+    public void sentToReplaceCashier(){
         if(isWaiterFree()){
-            if (send) addTokenToPlace(8);
-            else {
-                removeTokenFromPlace(8);
-            }
+            addTokenToPlace(8);
             runStep();
         }
     }
 
-    public void sendWaiterToServeOrder(boolean send){
+    public void sendCashierBack(){
+            addTokenToPlace(4);
+            runStep();
+    }
+
+    public void sendWaiterToServeOrder(){
         if(isWaiterFree()){
-            if (send) addTokenToPlace(9);
-            else {
-                removeTokenFromPlace(9);
-            }
+            addTokenToPlace(9);
             runStep();
         }
     }
 
-    public void sendWaiterToCleanTable(boolean send){
+    public void setOrderAtTable(){
+            addTokenToPlace(5);
+            runStep();
+    }
+
+    public void sendWaiterToCleanTable(){
         if(isWaiterFree()) {
-            if (send) addTokenToPlace(10);
-            else {
-                removeTokenFromPlace(10);
-            }
+            addTokenToPlace(10);
             runStep();
         }
+    }
+
+    public void setCleanTable(){
+            addTokenToPlace(7);
+            runStep();
     }
 
     public void runStep(){

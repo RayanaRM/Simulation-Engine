@@ -5,8 +5,6 @@ import br.unisinos.edu.engine.domain.Resource;
 import br.unisinos.edu.engine.repository.EngineRepository;
 import br.unisinos.edu.engine.settings.Status;
 
-import java.util.Random;
-
 public class ClientSetup extends Event {
     Resource usedTable;
     public void executeOnStart(ClientGroup clientGroup){
@@ -17,14 +15,14 @@ public class ClientSetup extends Event {
                 if(EngineRepository.counterBench.allocate(1)){
                     System.out.println("Garçom limpando balcão");
                     // TODO: colocar tempo para garçom limpar mesa
-                    EngineRepository.waiter.sendWaiterToCleanTable(true);
+                    EngineRepository.waiter.sendWaiterToCleanTable();
 
                     System.out.println("Banco do balcão sendo usado");
                     clientGroup.setStatus(Status.WaitingInTable);
                     usedTable = EngineRepository.counterBench;
                     EngineRepository.queueCounter.getEntityList().remove(clientGroup);
 
-                    EngineRepository.waiter.sendWaiterToCleanTable(false);
+                    EngineRepository.waiter.setCleanTable();
                 }
             }
         }
@@ -35,14 +33,14 @@ public class ClientSetup extends Event {
             if(!EngineRepository.queueTables.isEmpty()){
                 if(EngineRepository.tablesFourSeats.allocate(1)){
                     System.out.println("Garçom limpando mesa de quatro lugares");
-                    EngineRepository.waiter.sendWaiterToCleanTable(true);
+                    EngineRepository.waiter.sendWaiterToCleanTable();
 
                     System.out.println("Mesa de quatro lugares sendo usada");
                     clientGroup.setStatus(Status.WaitingInTable);
                     usedTable = EngineRepository.tablesFourSeats;
                     EngineRepository.queueTables.getEntityList().remove(clientGroup);
 
-                    EngineRepository.waiter.sendWaiterToCleanTable(false);
+                    EngineRepository.waiter.setCleanTable();
                 }
             }
         }
@@ -53,14 +51,14 @@ public class ClientSetup extends Event {
             if(!EngineRepository.queueTables.isEmpty()){
                 if(EngineRepository.tablesTwoSeats.allocate(1)){
                     System.out.println("Garçom limpando mesa de dois lugares");
-                    EngineRepository.waiter.sendWaiterToCleanTable(true);
+                    EngineRepository.waiter.sendWaiterToCleanTable();
 
                     System.out.println("Mesa de dois lugares sendo usada");
                     clientGroup.setStatus(Status.WaitingInTable);
                     usedTable = EngineRepository.tablesTwoSeats;
                     EngineRepository.queueTables.getEntityList().remove(clientGroup);
 
-                    EngineRepository.waiter.sendWaiterToCleanTable(false);
+                    EngineRepository.waiter.setCleanTable();
                 }
             }
         }
