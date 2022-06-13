@@ -29,13 +29,13 @@ public class EngineService {
          }*/
 
         ClientArrival ca1 = new ClientArrival();
-        ca1.setDuration(480);
+        ca1.setDuration(0);
 
         ClientArrival ca2 = new ClientArrival();
-        ca2.setDuration(480);
+        ca2.setDuration(0);
 
         ClientArrival ca3 = new ClientArrival();
-        ca3.setDuration(480);
+        ca3.setDuration(0);
 
         schedulerService.scheduleNow(ca1);
         schedulerService.scheduleNow(ca2);
