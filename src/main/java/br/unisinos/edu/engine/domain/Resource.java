@@ -14,23 +14,23 @@ public class Resource {
     private int id;
     private int quantity;
 
-    public boolean allocate(int quantity){
-        if (quantity <= getQuantity()){
+    public boolean allocate(int quantity) {
+        if (quantity <= getQuantity()) {
             setQuantity(getQuantity() - quantity);
             return true;
         }
         return false;
     }
 
-    public void release(int quantity){
-            setQuantity(getQuantity() + quantity);
+    public void release(int quantity) {
+        setQuantity(getQuantity() + quantity);
     }
 
-    public double allocationRate(){
+    public double allocationRate() {
         return 1;
     }
 
-    public double averageAllocation(){
+    public double averageAllocation() {
         return 1;
     }
 }

@@ -27,6 +27,8 @@ public class Preparation extends Event {
             EngineRepository.queueOrders.insert(order, getTime());
             EngineRepository.entities.add(order);
 
+
+
             // criar evento pra enviar pedido pra mesa
         }
     }

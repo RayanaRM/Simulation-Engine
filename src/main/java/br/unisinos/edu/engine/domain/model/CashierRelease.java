@@ -26,13 +26,13 @@ public class CashierRelease extends Event {
             EngineRepository.cashier2.release(1);
         }
 
-        Preparation preparation = new Preparation();
-        preparation.setDuration(840);
-        schedulerService.scheduleIn(preparation, getDuration());
+        OrderArrival orderArrival = new OrderArrival();
+        orderArrival.setDuration(0);
+        schedulerService.scheduleIn(orderArrival, getDuration());
 
         ClientSetup clientSetup = new ClientSetup();
         clientSetup.setDuration(0);
-        schedulerService.scheduleIn(preparation, getDuration());
+        schedulerService.scheduleIn(clientSetup, getDuration());
     }
 
 }
