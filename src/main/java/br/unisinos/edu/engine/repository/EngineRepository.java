@@ -4,6 +4,7 @@ import br.unisinos.edu.engine.domain.Entity;
 import br.unisinos.edu.engine.domain.model.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class EngineRepository {
@@ -27,4 +28,6 @@ public class EngineRepository {
     public static TablesTwo tablesTwoSeats = new TablesTwo("mesas2lug", 6, 4);
 
     public static List<Entity> entities = new ArrayList<>();
+    public static int clients = 0;
+    public static HashMap<Integer, Double> clientsEating = new HashMap<>();
 }

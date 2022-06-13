@@ -10,6 +10,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.stream.Collectors;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -22,7 +24,7 @@ public class Preparation extends Event {
     public void execute(SchedulerService schedulerService) {
         for (int i = 0; i < clientGroup.getSize(); i++) {
             Order order = new Order(clientGroup);
-            EngineRepository.queueOrders.insert(order);
+            EngineRepository.queueOrders.insert(order, getTime());
             EngineRepository.entities.add(order);
 
             // criar evento pra enviar pedido pra mesa
@@ -35,7 +37,8 @@ public class Preparation extends Event {
     public void executeOnStart(ClientGroup clientGroup) {
         for (int i = 0; i < clientGroup.getSize(); i++) {
             Order order = new Order(clientGroup);
-            EngineRepository.queueOrders.insert(order);
+            EngineRepository.queueOrders.insert(order, getTime());
+            EngineRepository.queueOrders.setTotalPedidos(EngineRepository.queueOrders.getTotalPedidos() + 1);
             EngineRepository.entities.add(order);
         }
         if (!EngineRepository.queueOrders.isEmpty()) {
@@ -53,15 +56,26 @@ public class Preparation extends Event {
             EngineRepository.waiter.sendWaiterToServeOrder();
             EngineRepository.waiter.setOrderAtTable();
             clientGroup.setStatus(Status.Eating);
-        } else EngineRepository.queueReadyOrders.insert(orderEntity);
+            EngineRepository.clientsEating.put(
+                    EngineRepository.entities.stream()
+                            .filter(e -> ((ClientGroup) e).getStatus() == Status.Eating)
+                            .collect(Collectors.toList()).size(), getTime());
+        } else {
+            EngineRepository.queueReadyOrders.insert(orderEntity, getTime());
+            EngineRepository.queueReadyOrders.setTotalPedidos(EngineRepository.queueReadyOrders.getTotalPedidos() + 1);
+        }
 
-        // verifica fila de pedidos prontos se algum cliente (dono do pedido) já sentou na mesa, se sentou, entrega
         for (int i = 0; i < EngineRepository.queueReadyOrders.getSize(); i++) {
             if (((Order) EngineRepository.queueReadyOrders.getEntityList().get(i)).getClientGroup().getStatus() == Status.WaitingInTable) {
                 EngineRepository.waiter.sendWaiterToServeOrder();
                 EngineRepository.waiter.setOrderAtTable();
                 clientGroup.setStatus(Status.Eating);
+                EngineRepository.clientsEating.put(
+                        EngineRepository.entities.stream()
+                                .filter(e -> ((ClientGroup) e).getStatus() == Status.Eating)
+                                .collect(Collectors.toList()).size(), getTime());
             }
+            ;
         }
     }
 }
