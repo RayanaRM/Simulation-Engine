@@ -12,6 +12,8 @@ import lombok.Setter;
 public class Preparation extends Event {
 
     Entity orderEntity;
+
+
     public void executeOnStart(ClientGroup clientGroup){
         for(int i = 0; i < clientGroup.getSize(); i++){
             Order order = new Order(clientGroup);

@@ -28,68 +28,23 @@ public class SchedulerService {
         SchedulerRepository.events.add(event);
     }
 
-    public void startProcessNow(int processId) {
-        // start thread for process now
-    }
-
-    public void startProcessIn(int processId, double timeToStart) {
-        // start thread for process in time to start
-    }
-
-    public void startProcessAt(int processId, double absoluteTime) {
-        // start thread for process in absolute time
-    }
-
-    public void waitFor(double time) {
-        // sleep
-    }
-
-    public void createEntity(Entity entity) {
-    }
-
-    public Entity getEntity(int id) {
-        return null;
-    }
-
-    public int createResouce(String name, int quantity) {
-        return 0;
-    }
-
-    public Resource getResource(int id) {
-        return null;
-    }
-
-    public int createProcess(String name, double duration) {
-        return 0;
-    }
-
-    public Process getProcess(int processId) {
-        return null;
-    }
-
-    public int createEvent(String name) {
-        return 0;
-    }
-
-    public Event getEvent(int eventId) {
-        return null;
-    }
-
-    public int createEntitySet(String name, Mode mode, int maxPossibleSize) {
-        return 0;
-    }
-
-    public EntitySet getEntitySet(int id) {
-        return null;
-    }
-
     public void simulate() {
         while (!SchedulerRepository.events.isEmpty()) {
             // sort events
-            SchedulerRepository.events.sort(Comparator.comparing(Event::getTime));
-            simulateOneStep();
+//            SchedulerRepository.events.sort(Comparator.comparing(Event::getTime));
+            // mandar rodar todos os eventos mais próximos (ex: todos com tempo 0)
+            // getNextEvents
+            // for i in nextEvents { simulateEvent }
+            //simulateOneStep();
         }
     }
+
+    public void simulateEvent(Event event) {
+        // roda evento
+        event.executeOnStart();
+        event.executeOnEnd();
+    }
+
 
     public void simulateOneStep() {
         // get current event
