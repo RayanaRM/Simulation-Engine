@@ -7,7 +7,6 @@ import br.unisinos.edu.engine.service.SchedulerService;
 import br.unisinos.edu.engine.settings.Status;
 
 public class ClientSetup extends Event {
-    Resource usedTable;
     ClientGroup clientGroup;
     public void execute(SchedulerService schedulerService){
         if(clientGroup.getSize() == 1){

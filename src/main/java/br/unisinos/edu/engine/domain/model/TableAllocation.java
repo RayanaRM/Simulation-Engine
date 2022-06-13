@@ -22,8 +22,9 @@ public class TableAllocation extends Event {
     @Override
     public void execute(SchedulerService schedulerService) {
         if(resource.allocate(1)){
-            System.out.println("Garçom limpando mesa");
-            EngineRepository.waiter.sendWaiterToCleanTable();
+            WaiterAllocation waiterAllocation = new WaiterAllocation();
+            waiterAllocation.setDuration(0);
+            schedulerService.scheduleIn(waiterAllocation, getDuration());
 
             System.out.println("Mesa alocada para quantidade de clientes " + clientGroup.getSize());
             clientGroup.setStatus(Status.WaitingInTable);
@@ -32,8 +33,6 @@ public class TableAllocation extends Event {
                 EngineRepository.queueTables.getEntityList().remove(clientGroup);
             else
                 EngineRepository.queueCounter.getEntityList().remove(clientGroup);
-
-            EngineRepository.waiter.setCleanTable();
 
             TableRelease tableRelease = new TableRelease(clientGroup, resource);
             tableRelease.setDuration(0);

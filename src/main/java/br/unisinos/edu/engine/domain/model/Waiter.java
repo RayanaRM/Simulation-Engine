@@ -70,11 +70,13 @@ public class Waiter{
             runStep();
     }
 
-    public void sendWaiterToServeOrder(){
+    public boolean sendWaiterToServeOrder(){
         if(isWaiterFree()){
             addTokenToPlace(9);
             runStep();
+            return true;
         }
+        return false;
     }
 
     public void setOrderAtTable(){
@@ -82,11 +84,13 @@ public class Waiter{
             runStep();
     }
 
-    public void sendWaiterToCleanTable(){
+    public boolean sendWaiterToCleanTable(){
         if(isWaiterFree()) {
             addTokenToPlace(10);
             runStep();
+            return true;
         }
+        return false;
     }
 
     public void setCleanTable(){
