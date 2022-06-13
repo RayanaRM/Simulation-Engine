@@ -3,30 +3,23 @@ package br.unisinos.edu.engine.domain.model;
 import br.unisinos.edu.engine.domain.Event;
 import br.unisinos.edu.engine.domain.Resource;
 import br.unisinos.edu.engine.repository.EngineRepository;
+import br.unisinos.edu.engine.service.SchedulerService;
 import br.unisinos.edu.engine.settings.Status;
 
 public class ClientSetup extends Event {
     Resource usedTable;
-    public void executeOnStart(ClientGroup clientGroup){
+    ClientGroup clientGroup;
+    public void execute(SchedulerService schedulerService){
         if(clientGroup.getSize() == 1){
             EngineRepository.queueCounter.insert(clientGroup, getTime());
             EngineRepository.queueCounter.setTotalClients(EngineRepository.queueCounter.getTotalClients() + 1);
 
             clientGroup.setStatus(Status.WaitingInLine);
-            if(!EngineRepository.queueCounter.isEmpty()){
-                if(EngineRepository.counterBench.allocate(1)){
-                    System.out.println("Garçom limpando balcão");
-                    // TODO: colocar tempo para garçom limpar mesa
-                    EngineRepository.waiter.sendWaiterToCleanTable();
 
-                    System.out.println("Banco do balcão sendo usado");
-                    clientGroup.setStatus(Status.WaitingInTable);
-                    usedTable = EngineRepository.counterBench;
-                    EngineRepository.queueCounter.getEntityList().remove(clientGroup);
+            TableAllocation tableAllocation = new TableAllocation(clientGroup, EngineRepository.counterBench);
+            tableAllocation.setDuration(1200);
 
-                    EngineRepository.waiter.setCleanTable();
-                }
-            }
+            schedulerService.scheduleIn(tableAllocation, getDuration());
         }
 
         else if(clientGroup.getSize() > 2){
@@ -34,19 +27,11 @@ public class ClientSetup extends Event {
             EngineRepository.queueTables.setTotalClients(EngineRepository.queueTables.getTotalClients() + 1);
 
             clientGroup.setStatus(Status.WaitingInLine);
-            if(!EngineRepository.queueTables.isEmpty()){
-                if(EngineRepository.tablesFourSeats.allocate(1)){
-                    System.out.println("Garçom limpando mesa de quatro lugares");
-                    EngineRepository.waiter.sendWaiterToCleanTable();
 
-                    System.out.println("Mesa de quatro lugares sendo usada");
-                    clientGroup.setStatus(Status.WaitingInTable);
-                    usedTable = EngineRepository.tablesFourSeats;
-                    EngineRepository.queueTables.getEntityList().remove(clientGroup);
+            TableAllocation tableAllocation = new TableAllocation(clientGroup, EngineRepository.tablesFourSeats);
+            tableAllocation.setDuration(1200);
 
-                    EngineRepository.waiter.setCleanTable();
-                }
-            }
+            schedulerService.scheduleIn(tableAllocation, getDuration());
         }
 
         else{
@@ -54,29 +39,11 @@ public class ClientSetup extends Event {
             EngineRepository.queueTables.setTotalClients(EngineRepository.queueTables.getTotalClients() + 1);
 
             clientGroup.setStatus(Status.WaitingInLine);
-            if(!EngineRepository.queueTables.isEmpty()){
-                if(EngineRepository.tablesTwoSeats.allocate(1)){
-                    System.out.println("Garçom limpando mesa de dois lugares");
-                    EngineRepository.waiter.sendWaiterToCleanTable();
 
-                    System.out.println("Mesa de dois lugares sendo usada");
-                    clientGroup.setStatus(Status.WaitingInTable);
-                    usedTable = EngineRepository.tablesTwoSeats;
-                    EngineRepository.queueTables.getEntityList().remove(clientGroup);
+            TableAllocation tableAllocation = new TableAllocation(clientGroup, EngineRepository.tablesTwoSeats);
+            tableAllocation.setDuration(1200);
 
-                    EngineRepository.waiter.setCleanTable();
-                }
-            }
+            schedulerService.scheduleIn(tableAllocation, getDuration());
         }
-    }
-
-    public void executeOnEnd(ClientGroup clientGroup){
-        if(usedTable == EngineRepository.counterBench)
-            EngineRepository.counterBench.release(1);
-        else if(usedTable == EngineRepository.tablesTwoSeats)
-            EngineRepository.tablesTwoSeats.release(1);
-        else EngineRepository.tablesFourSeats.release(1);
-
-        clientGroup.setStatus(Status.Finished);
     }
 }
