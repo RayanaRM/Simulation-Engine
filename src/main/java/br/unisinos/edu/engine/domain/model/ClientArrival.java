@@ -20,9 +20,9 @@ public class ClientArrival extends Event {
         int sizeOfQueueCashier2 = EngineRepository.queueCashier2.getEntityList().size();
 
         if (sizeOfQueueCashier1 < sizeOfQueueCashier2) {
-            EngineRepository.queueCashier1.insert(clientGroup);
+            EngineRepository.queueCashier1.insert(clientGroup, getTime());
         } else {
-            EngineRepository.queueCashier2.insert(clientGroup);
+            EngineRepository.queueCashier2.insert(clientGroup, getTime());
         }
 
         CashierAllocation cashierAllocation = new CashierAllocation();
@@ -35,13 +35,14 @@ public class ClientArrival extends Event {
         // evento de chegada
         Random r = new Random();
         clientGroup = new ClientGroup(r.nextInt(4) + 1);
+        EngineRepository.clients += clientGroup.getSize();
         EngineRepository.entities.add(clientGroup);
 
         if (EngineRepository.queueCashier1.getEntityList().size() <
                 EngineRepository.queueCashier2.getEntityList().size()) {
-            EngineRepository.queueCashier1.insert(clientGroup);
+            EngineRepository.queueCashier1.insert(clientGroup, getTime());
         } else {
-            EngineRepository.queueCashier2.insert(clientGroup);
+            EngineRepository.queueCashier2.insert(clientGroup, getTime());
         }
 
         // evento pra alocar o caixa

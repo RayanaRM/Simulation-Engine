@@ -7,6 +7,8 @@ import br.unisinos.edu.engine.settings.Status;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.stream.Collectors;
+
 @Getter
 @Setter
 public class Preparation extends Event {
@@ -17,7 +19,8 @@ public class Preparation extends Event {
     public void executeOnStart(ClientGroup clientGroup){
         for(int i = 0; i < clientGroup.getSize(); i++){
             Order order = new Order(clientGroup);
-            EngineRepository.queueOrders.insert(order);
+            EngineRepository.queueOrders.insert(order, getTime());
+            EngineRepository.queueOrders.setTotalPedidos(EngineRepository.queueOrders.getTotalPedidos() + 1);
             EngineRepository.entities.add(order);
         }
         if(!EngineRepository.queueOrders.isEmpty()){
@@ -28,23 +31,32 @@ public class Preparation extends Event {
     }
 
     public void executeOnEnd(ClientGroup clientGroup){
-        // pedido pronto, garçom entrega na mesa do grupo
         EngineRepository.kitchen.release(1);
 
         if(clientGroup.getStatus() == Status.WaitingInTable){
             EngineRepository.waiter.sendWaiterToServeOrder();
             EngineRepository.waiter.setOrderAtTable();
             clientGroup.setStatus(Status.Eating);
+            EngineRepository.clientsEating.put(
+                    EngineRepository.entities.stream()
+                            .filter(e -> ((ClientGroup)e).getStatus() == Status.Eating)
+                            .collect(Collectors.toList()).size() ,getTime());
         }
 
-        else EngineRepository.queueReadyOrders.insert(orderEntity);
+        else {
+            EngineRepository.queueReadyOrders.insert(orderEntity,getTime());
+            EngineRepository.queueReadyOrders.setTotalPedidos(EngineRepository.queueReadyOrders.getTotalPedidos() + 1);
+        }
 
-        // verifica fila de pedidos prontos se algum cliente (dono do pedido) já sentou na mesa, se sentou, entrega
         for(int i = 0; i < EngineRepository.queueReadyOrders.getSize(); i++){
             if(((Order)EngineRepository.queueReadyOrders.getEntityList().get(i)).getClientGroup().getStatus() == Status.WaitingInTable){
                 EngineRepository.waiter.sendWaiterToServeOrder();
                 EngineRepository.waiter.setOrderAtTable();
                 clientGroup.setStatus(Status.Eating);
+                EngineRepository.clientsEating.put(
+                        EngineRepository.entities.stream()
+                                .filter(e -> ((ClientGroup)e).getStatus() == Status.Eating)
+                                .collect(Collectors.toList()).size() ,getTime());
             };
         }
     }

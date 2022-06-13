@@ -40,9 +40,9 @@ public class SchedulerService {
 
             eventList.forEach(event -> event.execute(this));
 
-            SchedulerRepository.events.removeIf(event -> event.getTime() == timeOfNextEvents);
-
-            // some logic to add time to clock if needed, based on event success (maybe return true or false on events)
+            if(SchedulerRepository.events.removeIf(event -> event.getTime() == timeOfNextEvents)){
+                SchedulerRepository.scheduler.setTime(getTime() + timeOfNextEvents);
+            }
         }
     }
 

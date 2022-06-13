@@ -9,7 +9,9 @@ public class ClientSetup extends Event {
     Resource usedTable;
     public void executeOnStart(ClientGroup clientGroup){
         if(clientGroup.getSize() == 1){
-            EngineRepository.queueCounter.insert(clientGroup);
+            EngineRepository.queueCounter.insert(clientGroup, getTime());
+            EngineRepository.queueCounter.setTotalClients(EngineRepository.queueCounter.getTotalClients() + 1);
+
             clientGroup.setStatus(Status.WaitingInLine);
             if(!EngineRepository.queueCounter.isEmpty()){
                 if(EngineRepository.counterBench.allocate(1)){
@@ -28,7 +30,9 @@ public class ClientSetup extends Event {
         }
 
         else if(clientGroup.getSize() > 2){
-            EngineRepository.queueTables.insert(clientGroup);
+            EngineRepository.queueTables.insert(clientGroup, getTime());
+            EngineRepository.queueTables.setTotalClients(EngineRepository.queueTables.getTotalClients() + 1);
+
             clientGroup.setStatus(Status.WaitingInLine);
             if(!EngineRepository.queueTables.isEmpty()){
                 if(EngineRepository.tablesFourSeats.allocate(1)){
@@ -46,7 +50,9 @@ public class ClientSetup extends Event {
         }
 
         else{
-            EngineRepository.queueTables.insert(clientGroup);
+            EngineRepository.queueTables.insert(clientGroup, getTime());
+            EngineRepository.queueTables.setTotalClients(EngineRepository.queueTables.getTotalClients() + 1);
+
             clientGroup.setStatus(Status.WaitingInLine);
             if(!EngineRepository.queueTables.isEmpty()){
                 if(EngineRepository.tablesTwoSeats.allocate(1)){
