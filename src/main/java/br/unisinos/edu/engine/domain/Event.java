@@ -1,5 +1,6 @@
 package br.unisinos.edu.engine.domain;
 
+import br.unisinos.edu.engine.service.SchedulerService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,11 @@ public class Event {
     private int id;
 
     private double time;
+
+    private double duration;
+
+    public void execute(SchedulerService schedulerService) {
+    }
 
     public void executeOnStart() {
     }

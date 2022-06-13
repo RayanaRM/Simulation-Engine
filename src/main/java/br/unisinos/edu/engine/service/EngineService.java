@@ -1,7 +1,6 @@
 package br.unisinos.edu.engine.service;
 
-import br.unisinos.edu.engine.domain.model.*;
-import br.unisinos.edu.engine.repository.EngineRepository;
+import br.unisinos.edu.engine.domain.model.ClientArrival;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,51 +10,43 @@ import org.springframework.stereotype.Service;
 public class EngineService {
 
     SchedulerService schedulerService = new SchedulerService();
-    public void simulate(){
+
+    public void simulate() {
         executeEngine();
     }
 
-    public void executeEngine(){
-        //filas dos caixas
-        ClientArrival clientArrival = new ClientArrival();
-        schedulerService.scheduleNow(clientArrival);
+    public void executeEngine() {
+        double maxTimeOfArrivals = 10800; // 3 horas em segundos;
+        int arrivalsRate = 180; // 3 min em segundos;
+        int maxArrivals = (int) maxTimeOfArrivals / arrivalsRate;
+        int arrivalDuration = 480; // 8 min em segundos
 
-        // configurar todos os 22 eventos de chegada (22 pq são 3h e tem 8min cada chegada)
+        /**for (int i = 0; i < maxArrivals; i++) {
+         ClientArrival clientArrival = new ClientArrival();
+         clientArrival.setDuration(arrivalDuration);
+
+         schedulerService.scheduleAt(clientArrival, arrivalsRate * i);
+         }*/
+
+        ClientArrival ca1 = new ClientArrival();
+        ca1.setDuration(480);
+
+        ClientArrival ca2 = new ClientArrival();
+        ca2.setDuration(480);
+
+        ClientArrival ca3 = new ClientArrival();
+        ca3.setDuration(480);
+
+        schedulerService.scheduleNow(ca1);
+        schedulerService.scheduleNow(ca2);
+        schedulerService.scheduleNow(ca3);
+
+
+        // configurar todos os 60 eventos de chegada (22 pq são 3h e tem 8min cada chegada)
         // random = uniform || time || normal
         // time = uniform(minValue, maxValue: double) ou time = exponential(meanValue): double ou normal(meanValue, stdDeviationValue): double
         // for i in schedulerService.scheduleAt(time)
 
         schedulerService.simulate();
-
-
-//        clientArrival.executeOnStart();
-//
-//        // inicia preparo do pedido
-//        Preparation preparation = new Preparation();
-//        preparation.executeOnStart(clientArrival.clientGroup);
-//
-//        //cliente sai do caixa
-//        clientArrival.executeOnEnd();
-//
-//        //move cliente para mesa ou fila de espera
-//        ClientSetup clientSetup = new ClientSetup();
-//        clientSetup.executeOnStart(clientArrival.clientGroup);
-//
-//        //pedido fica pronto
-//        preparation.executeOnEnd(clientArrival.clientGroup);
-//
-//        // TODO: Implementar o tempo pro garçom substituir o caixa
-//        EngineRepository.waiter.sentToReplaceCashier();
-//        EngineRepository.waiter.sendCashierBack();
-//
-//        //cliente termina de comer
-//        clientSetup.executeOnEnd(clientArrival.clientGroup);
-//
-//        //garçom
-
-    }
-
-    public int getEntityTotalQuantity(){
-        return EngineRepository.entities.size();
     }
 }

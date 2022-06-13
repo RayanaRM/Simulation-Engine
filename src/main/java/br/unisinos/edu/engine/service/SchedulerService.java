@@ -1,12 +1,11 @@
 package br.unisinos.edu.engine.service;
 
-import br.unisinos.edu.engine.domain.Process;
-import br.unisinos.edu.engine.domain.*;
+import br.unisinos.edu.engine.domain.Event;
 import br.unisinos.edu.engine.repository.SchedulerRepository;
-import br.unisinos.edu.engine.settings.Mode;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SchedulerService {
@@ -30,19 +29,21 @@ public class SchedulerService {
 
     public void simulate() {
         while (!SchedulerRepository.events.isEmpty()) {
-            // sort events
-//            SchedulerRepository.events.sort(Comparator.comparing(Event::getTime));
-            // mandar rodar todos os eventos mais próximos (ex: todos com tempo 0)
-            // getNextEvents
-            // for i in nextEvents { simulateEvent }
-            //simulateOneStep();
-        }
-    }
+            double timeOfNextEvents = SchedulerRepository.events.stream()
+                    .findFirst()
+                    .get()
+                    .getTime();
 
-    public void simulateEvent(Event event) {
-        // roda evento
-        event.executeOnStart();
-        event.executeOnEnd();
+            List<Event> eventList = SchedulerRepository.events.stream()
+                    .filter(event -> event.getTime() == timeOfNextEvents)
+                    .collect(Collectors.toList());
+
+            eventList.forEach(event -> event.execute(this));
+
+            SchedulerRepository.events.removeIf(event -> event.getTime() == timeOfNextEvents);
+
+            // some logic to add time to clock if needed, based on event success (maybe return true or false on events)
+        }
     }
 
 

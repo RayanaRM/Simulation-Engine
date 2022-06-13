@@ -11,8 +11,4 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Scheduler {
     private double time;
-
-    public void scheduleNow(Event event){}
-    public void scheduleIn(Event event, int timeToEvent){}
-    public void scheduleAt(Event event, int absoluteTime){}
 }
