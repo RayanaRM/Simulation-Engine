@@ -22,9 +22,9 @@ public class TableRelease extends Event {
 
     @Override
     public void execute(SchedulerService schedulerService) {
-        if(usedTable == EngineRepository.counterBench)
+        if (usedTable == EngineRepository.counterBench)
             EngineRepository.counterBench.release(1);
-        else if(usedTable == EngineRepository.tablesTwoSeats)
+        else if (usedTable == EngineRepository.tablesTwoSeats)
             EngineRepository.tablesTwoSeats.release(1);
         else EngineRepository.tablesFourSeats.release(1);
 

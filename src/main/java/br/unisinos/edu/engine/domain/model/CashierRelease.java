@@ -21,8 +21,10 @@ public class CashierRelease extends Event {
     @Override
     public void execute(SchedulerService schedulerService) {
         if (cashierUsed.equals(EngineRepository.cashier1)) {
+            System.out.println("Caixa 1 liberado...");
             EngineRepository.cashier1.release(1);
         } else {
+            System.out.println("Caixa 1 liberado...");
             EngineRepository.cashier2.release(1);
         }
 

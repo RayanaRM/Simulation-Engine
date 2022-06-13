@@ -25,6 +25,8 @@ public class ClientArrival extends Event {
         EngineRepository.clients += clientGroup.getSize();
         EngineRepository.entities.add(clientGroup);
 
+        System.out.println("Chegou novo grupo de clientes...");
+
         int sizeOfQueueCashier1 = EngineRepository.queueCashier1.getEntityList().size();
         int sizeOfQueueCashier2 = EngineRepository.queueCashier2.getEntityList().size();
 

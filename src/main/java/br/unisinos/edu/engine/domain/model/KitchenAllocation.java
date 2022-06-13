@@ -21,7 +21,7 @@ public class KitchenAllocation extends Event {
         if (EngineRepository.kitchen.allocate(1)) {
             EngineRepository.queueOrders.getEntityList().remove(order);
 
-            Preparation preparation = new Preparation();
+            Preparation preparation = new Preparation(order);
             preparation.setDuration(840);
 
             schedulerService.scheduleIn(preparation, getDuration());
