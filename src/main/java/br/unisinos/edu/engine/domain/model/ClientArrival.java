@@ -19,7 +19,7 @@ public class ClientArrival extends Event {
     private ClientGroup clientGroup;
 
     @Override
-    public void execute(SchedulerService schedulerService) {
+    public boolean execute(SchedulerService schedulerService) {
         Random r = new Random();
         clientGroup = new ClientGroup(r.nextInt(4) + 1);
         EngineRepository.clients += clientGroup.getSize();
@@ -41,6 +41,8 @@ public class ClientArrival extends Event {
         cashierAllocation.setClientGroup(clientGroup);
 
         schedulerService.scheduleIn(cashierAllocation, getDuration());
+
+        return true;
     }
 
 }

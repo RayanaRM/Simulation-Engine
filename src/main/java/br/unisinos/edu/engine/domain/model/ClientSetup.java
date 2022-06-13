@@ -1,7 +1,6 @@
 package br.unisinos.edu.engine.domain.model;
 
 import br.unisinos.edu.engine.domain.Event;
-import br.unisinos.edu.engine.domain.Resource;
 import br.unisinos.edu.engine.repository.EngineRepository;
 import br.unisinos.edu.engine.service.SchedulerService;
 import br.unisinos.edu.engine.settings.Status;
@@ -9,7 +8,7 @@ import br.unisinos.edu.engine.settings.Status;
 public class ClientSetup extends Event {
     ClientGroup clientGroup;
 
-    public void execute(SchedulerService schedulerService) {
+    public boolean execute(SchedulerService schedulerService) {
         if (clientGroup.getSize() == 1) {
             EngineRepository.queueCounter.insert(clientGroup, getTime());
             EngineRepository.queueCounter.setTotalClients(EngineRepository.queueCounter.getTotalClients() + 1);
@@ -41,5 +40,7 @@ public class ClientSetup extends Event {
 
             schedulerService.scheduleIn(tableAllocation, getDuration());
         }
+
+        return true;
     }
 }

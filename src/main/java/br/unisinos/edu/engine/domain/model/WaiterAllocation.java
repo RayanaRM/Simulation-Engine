@@ -11,12 +11,14 @@ import lombok.Setter;
 public class WaiterAllocation extends Event {
 
     @Override
-    public void execute(SchedulerService schedulerService) {
+    public boolean execute(SchedulerService schedulerService) {
         if (EngineRepository.waiter.sendWaiterToCleanTable()) {
             System.out.println("Garçom limpando mesa");
             EngineRepository.waiter.setCleanTable();
+            return true;
         } else {
             schedulerService.scheduleIn(this, getDuration());
+            return false;
         }
     }
 

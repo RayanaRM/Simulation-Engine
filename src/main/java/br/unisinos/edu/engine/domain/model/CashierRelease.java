@@ -19,7 +19,7 @@ public class CashierRelease extends Event {
     private Cashier cashierUsed;
 
     @Override
-    public void execute(SchedulerService schedulerService) {
+    public boolean execute(SchedulerService schedulerService) {
         if (cashierUsed.equals(EngineRepository.cashier1)) {
             System.out.println("Caixa 1 liberado...");
             EngineRepository.cashier1.release(1);
@@ -35,6 +35,8 @@ public class CashierRelease extends Event {
         ClientSetup clientSetup = new ClientSetup();
         clientSetup.setDuration(0);
         schedulerService.scheduleIn(clientSetup, getDuration());
+
+        return true;
     }
 
 }

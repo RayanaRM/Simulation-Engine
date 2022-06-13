@@ -20,7 +20,7 @@ public class TableAllocation extends Event {
     Resource resource;
 
     @Override
-    public void execute(SchedulerService schedulerService) {
+    public boolean execute(SchedulerService schedulerService) {
         if (resource.allocate(1)) {
             WaiterAllocation waiterAllocation = new WaiterAllocation();
             waiterAllocation.setDuration(0);
@@ -37,8 +37,12 @@ public class TableAllocation extends Event {
             TableRelease tableRelease = new TableRelease(clientGroup, resource);
             tableRelease.setDuration(0);
             schedulerService.scheduleIn(tableRelease, getDuration());
+
+            return true;
         } else {
             schedulerService.scheduleIn(this, getDuration());
+
+            return false;
         }
     }
 

@@ -18,11 +18,13 @@ public class Eat extends Event {
     private ClientGroup clientGroup;
 
     @Override
-    public void execute(SchedulerService schedulerService) {
+    public boolean execute(SchedulerService schedulerService) {
         System.out.println("Cliente comendo...");
 
         clientGroup.setStatus(Status.Finished);
 
         EngineRepository.entities.remove(clientGroup);
+
+        return true;
     }
 }

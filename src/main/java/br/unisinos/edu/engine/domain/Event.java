@@ -19,7 +19,8 @@ public class Event {
 
     private double duration;
 
-    public void execute(SchedulerService schedulerService) {
+    public boolean execute(SchedulerService schedulerService) {
+        return true;
     }
 
     public void executeOnStart() {

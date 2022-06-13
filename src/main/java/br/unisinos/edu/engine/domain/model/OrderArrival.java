@@ -17,7 +17,7 @@ public class OrderArrival extends Event {
     private ClientGroup clientGroup;
 
     @Override
-    public void execute(SchedulerService schedulerService) {
+    public boolean execute(SchedulerService schedulerService) {
         for (int i = 0; i < clientGroup.getSize(); i++) {
             Order order = new Order(clientGroup);
             EngineRepository.queueOrders.getEntityList().add(order);
@@ -26,5 +26,7 @@ public class OrderArrival extends Event {
             kitchenAllocation.setDuration(0);
             schedulerService.scheduleIn(kitchenAllocation, getDuration());
         }
+
+        return true;
     }
 }

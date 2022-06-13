@@ -21,7 +21,7 @@ public class TableRelease extends Event {
     private Resource usedTable;
 
     @Override
-    public void execute(SchedulerService schedulerService) {
+    public boolean execute(SchedulerService schedulerService) {
         if (usedTable == EngineRepository.counterBench)
             EngineRepository.counterBench.release(1);
         else if (usedTable == EngineRepository.tablesTwoSeats)
@@ -29,5 +29,7 @@ public class TableRelease extends Event {
         else EngineRepository.tablesFourSeats.release(1);
 
         clientGroup.setStatus(Status.Finished);
+
+        return true;
     }
 }

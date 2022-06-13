@@ -17,7 +17,7 @@ public class CashierAllocation extends Event {
     private ClientGroup clientGroup;
 
     @Override
-    public void execute(SchedulerService schedulerService) {
+    public boolean execute(SchedulerService schedulerService) {
         if (EngineRepository.cashier1.allocate(1)) {
             System.out.println("Caixa 1 sendo usado...");
 
@@ -28,6 +28,8 @@ public class CashierAllocation extends Event {
             cashierRelease.setDuration(0);
 
             schedulerService.scheduleIn(cashierRelease, getDuration());
+
+            return true;
         } else if (EngineRepository.cashier2.allocate(1)) {
             System.out.println("Caixa 2 sendo usado...");
 
@@ -38,8 +40,12 @@ public class CashierAllocation extends Event {
             cashierRelease.setDuration(0);
 
             schedulerService.scheduleIn(cashierRelease, getDuration());
+
+            return true;
         } else {
             schedulerService.scheduleIn(this, getDuration());
+
+            return false;
         }
     }
 
