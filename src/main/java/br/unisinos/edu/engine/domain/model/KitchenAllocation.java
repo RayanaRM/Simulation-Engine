@@ -17,7 +17,7 @@ public class KitchenAllocation extends Event {
     private Order order;
 
     @Override
-    public void execute(SchedulerService schedulerService) {
+    public boolean execute(SchedulerService schedulerService) {
         if (EngineRepository.kitchen.allocate(1)) {
             EngineRepository.queueOrders.getEntityList().remove(order);
 
@@ -25,9 +25,10 @@ public class KitchenAllocation extends Event {
             preparation.setDuration(840);
 
             schedulerService.scheduleIn(preparation, getDuration());
+            return true;
         } else {
             schedulerService.scheduleIn(this, getDuration());
         }
+        return false;
     }
-
 }

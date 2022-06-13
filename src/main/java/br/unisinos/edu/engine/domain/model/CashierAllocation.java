@@ -44,9 +44,7 @@ public class CashierAllocation extends Event {
             return true;
         } else {
             schedulerService.scheduleIn(this, getDuration());
-
             return false;
         }
     }
-
 }

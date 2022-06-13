@@ -28,11 +28,11 @@ public class CashierRelease extends Event {
             EngineRepository.cashier2.release(1);
         }
 
-        OrderArrival orderArrival = new OrderArrival();
+        OrderArrival orderArrival = new OrderArrival(clientGroup);
         orderArrival.setDuration(0);
         schedulerService.scheduleIn(orderArrival, getDuration());
 
-        ClientSetup clientSetup = new ClientSetup();
+        ClientSetup clientSetup = new ClientSetup(clientGroup);
         clientSetup.setDuration(0);
         schedulerService.scheduleIn(clientSetup, getDuration());
 

@@ -4,9 +4,14 @@ import br.unisinos.edu.engine.domain.Event;
 import br.unisinos.edu.engine.repository.EngineRepository;
 import br.unisinos.edu.engine.service.SchedulerService;
 import br.unisinos.edu.engine.settings.Status;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
+@AllArgsConstructor
 public class ClientSetup extends Event {
-    ClientGroup clientGroup;
+    private ClientGroup clientGroup;
 
     public boolean execute(SchedulerService schedulerService) {
         if (clientGroup.getSize() == 1) {

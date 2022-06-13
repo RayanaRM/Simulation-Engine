@@ -20,7 +20,10 @@ public class Preparation extends Event {
     private Order order;
 
     @Override
-    public void execute(SchedulerService schedulerService) {
+    public boolean execute(SchedulerService schedulerService) {
+
+        boolean retorno;
+
         System.out.println("Preparando pedido...");
 
         if (order.getClientGroup().getStatus() == Status.WaitingInTable) {
@@ -37,21 +40,30 @@ public class Preparation extends Event {
             Eat eat = new Eat(order.getClientGroup());
             eat.setDuration(1200);
             schedulerService.scheduleIn(eat, getDuration());
+            retorno = true;
         } else {
             EngineRepository.queueReadyOrders.insert(order, getTime());
             EngineRepository.queueReadyOrders.setTotalPedidos(EngineRepository.queueReadyOrders.getTotalPedidos() + 1);
+
+            schedulerService.scheduleIn(this, getDuration());
+            retorno = false;
         }
 
         for (int i = 0; i < EngineRepository.queueReadyOrders.getSize(); i++) {
             if (((Order) EngineRepository.queueReadyOrders.getEntityList().get(i)).getClientGroup().getStatus() == Status.WaitingInTable) {
                 EngineRepository.waiter.sendWaiterToServeOrder();
                 EngineRepository.waiter.setOrderAtTable();
+
                 order.getClientGroup().setStatus(Status.Eating);
+
                 EngineRepository.clientsEating.put(
                         EngineRepository.entities.stream()
                                 .filter(e -> ((ClientGroup) e).getStatus() == Status.Eating)
                                 .collect(Collectors.toList()).size(), getTime());
+
+                EngineRepository.queueReadyOrders.getEntityList().remove(i);
             }
         }
+        return retorno;
     }
 }

@@ -18,14 +18,12 @@ public class OrderArrival extends Event {
 
     @Override
     public boolean execute(SchedulerService schedulerService) {
-        for (int i = 0; i < clientGroup.getSize(); i++) {
             Order order = new Order(clientGroup);
-            EngineRepository.queueOrders.getEntityList().add(order);
+            EngineRepository.queueOrders.insert(order, getTime());
 
             KitchenAllocation kitchenAllocation = new KitchenAllocation(order);
             kitchenAllocation.setDuration(0);
             schedulerService.scheduleIn(kitchenAllocation, getDuration());
-        }
 
         return true;
     }
