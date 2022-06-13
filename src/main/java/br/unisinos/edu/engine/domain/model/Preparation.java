@@ -34,7 +34,7 @@ public class Preparation extends Event {
                             .filter(e -> ((ClientGroup) e).getStatus() == Status.Eating)
                             .collect(Collectors.toList()).size(), getTime());
 
-            Eat eat = new Eat();
+            Eat eat = new Eat(order.getClientGroup());
             eat.setDuration(1200);
             schedulerService.scheduleIn(eat, getDuration());
         } else {
@@ -52,7 +52,6 @@ public class Preparation extends Event {
                                 .filter(e -> ((ClientGroup) e).getStatus() == Status.Eating)
                                 .collect(Collectors.toList()).size(), getTime());
             }
-
         }
     }
 }

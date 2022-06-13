@@ -24,25 +24,25 @@ public class EngineService {
         int maxArrivals = (int) maxTimeOfArrivals / arrivalsRate;
         int arrivalDuration = 480; // 8 min em segundos
 
-        /**for (int i = 0; i < maxArrivals; i++) {
+        for (int i = 0; i < maxArrivals; i++) {
          ClientArrival clientArrival = new ClientArrival();
          clientArrival.setDuration(arrivalDuration);
 
          schedulerService.scheduleAt(clientArrival, arrivalsRate * i);
-         }*/
+         }
 
-        ClientArrival ca1 = new ClientArrival();
-        ca1.setDuration(0);
+//        ClientArrival ca1 = new ClientArrival();
+//        ca1.setDuration(0);
+//
+//        ClientArrival ca2 = new ClientArrival();
+//        ca2.setDuration(0);
+//
+//        ClientArrival ca3 = new ClientArrival();
+//        ca3.setDuration(0);
 
-        ClientArrival ca2 = new ClientArrival();
-        ca2.setDuration(0);
-
-        ClientArrival ca3 = new ClientArrival();
-        ca3.setDuration(0);
-
-        schedulerService.scheduleNow(ca1);
-        schedulerService.scheduleNow(ca2);
-        schedulerService.scheduleNow(ca3);
+//        schedulerService.scheduleNow(ca1);
+//        schedulerService.scheduleNow(ca2);
+//        schedulerService.scheduleNow(ca3);
 
 
         // configurar todos os 60 eventos de chegada (22 pq são 3h e tem 8min cada chegada)
