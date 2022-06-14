@@ -19,12 +19,11 @@ public class EngineService {
     }
 
     public void executeEngine() {
-        double maxTimeOfArrivals = 10800; // 3 horas em segundos;
         int arrivalsRate = 180; // 3 min em segundos;
-        int maxArrivals = (int) maxTimeOfArrivals / arrivalsRate;
+        int maxArrivals = 10;
         int arrivalDuration = 480; // 8 min em segundos
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < maxArrivals; i++) {
             ClientArrival clientArrival = new ClientArrival();
             clientArrival.setDuration(arrivalDuration);
 

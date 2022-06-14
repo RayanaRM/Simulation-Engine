@@ -25,6 +25,8 @@ public class Eat extends Event {
 
         EngineRepository.entities.remove(clientGroup);
 
+        System.out.println("Cliente..." + clientGroup.getId() + " finalizou a comida");
+
         return true;
     }
 }

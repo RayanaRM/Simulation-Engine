@@ -58,18 +58,6 @@ public class Waiter{
                 Integer.class);
     }
 
-    public void sentToReplaceCashier(){
-        if(isWaiterFree()){
-            addTokenToPlace(8);
-            runStep();
-        }
-    }
-
-    public void sendCashierBack(){
-            addTokenToPlace(4);
-            runStep();
-    }
-
     public boolean sendWaiterToServeOrder(){
         if(isWaiterFree()){
             addTokenToPlace(9);
